@@ -1,0 +1,72 @@
+"""
+2
+projekt_2.py: druhý projekt do Engeto Online Python Akademie
+3
+4
+author: Tomas Juranek
+5
+email: juranek.t@gmail.com
+
+discord: tomasjuranek
+
+"""
+
+
+
+# 1. Import modulu random
+import random
+
+# 2. Vygenerování náhodného 4 místného čísla
+def generate_secret_number():
+    return ''.join(str(random.randint(1, 9)) for _ in range(4))
+secret_number = generate_secret_number()  
+print(secret_number)
+guesses = 0
+
+# 3. Pozdravení a úvodní text
+def generate_greeting():
+    greeting = "Hi there!"
+    text_a = "I've generated a random 4 digit number for you."
+    text_b = "Let's play a bulls and cows game."
+    separator = "-" * len(text_a)
+    return f"{greeting}\n{separator}\n{text_a}\n{text_b}\n{separator}"    
+print(generate_greeting())
+
+def evaluate_guess(secret_number, guess):
+    """Vygeneruje počet bullů a cows."""
+    bulls = sum(1 for x, y in zip(secret_number, guess) if x == y)  # Bull = správné číslo na správné pozici
+    cows = sum(1 for x in guess if x in secret_number) - bulls  # Cow = správné číslo na nesprávné pozici
+    return bulls, cows
+
+# 4. Vložení 4 místního čísla
+def main():
+    while True:
+        guess = (input("Enter a number:\n"))
+        # Kontrola správnosti vstupu
+        if not guess.isdigit() or len(guess) != 4 or guess[0] == '0':
+            print("Invalid input. Please enter a 4-digit number with unique digits and without leading zeros.")
+            continue
+
+        bulls, cows = evaluate_guess(secret_number, guess)
+        
+
+        # Výpis výsledků
+        if bulls == 4:
+            print(f"Correct, you've guessed the right number in {guesses} guesses!")
+        elif guess == secret_number:
+            print(f"Correct, you've guessed the right number in {guesses} guesses!")
+            break
+        else:
+            print(f"{bulls} {'bull' if bulls == 1 else 'bulls'}, {cows} {'cow' if cows == 1 else 'cows'}")
+        print("End of the game")
+
+        next_game = input("Do you want to play next game y/n: ")
+        if next_game!="yes":
+            print("Goodbye")
+            break
+if __name__ == "__main__":
+    main()
+
+
+
+
